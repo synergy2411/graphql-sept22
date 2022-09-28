@@ -14,10 +14,10 @@ let posts = [
 ]
 
 let comments = [
-    { id: "c001", text: "Awesome comment", post: "p001" },
-    { id: "c002", text: "Liked it", post: "p003" },
-    { id: "c003", text: "Nice Post", post: "p003" },
-    { id: "c004", text: "Not Bad Post", post: "p001" },
+    { id: "c001", text: "Awesome comment", post: "p001", creator: "u002" },
+    { id: "c002", text: "Liked it", post: "p003", creator: "u003" },
+    { id: "c003", text: "Nice Post", post: "p003", creator: "u001" },
+    { id: "c004", text: "Not Bad Post", post: "p001", creator: "u002" },
 ]
 
 const typeDefs = `
@@ -40,11 +40,13 @@ const typeDefs = `
         email: String!
         age: Int!
         posts : [Post!]!
+        comments : [Comment!]!
     }
     type Comment {
         id : ID!
         text : String!
-        post : Post
+        post : Post!
+        creator: User!
     }
 `
 const resolvers = {
@@ -63,10 +65,12 @@ const resolvers = {
         comments: (parent, args, context, info) => comments.filter(comment => comment.post === parent.id)
     },
     User: {
-        posts: (parent, args, context, info) => posts.filter(post => post.author === parent.id)
+        posts: (parent, args, context, info) => posts.filter(post => post.author === parent.id),
+        comments: (parent, args, context, info) => comments.filter(comment => comment.creator === parent.id)
     },
     Comment: {
-        post: (parent, args, context, info) => posts.find(post => post.id === parent.post)
+        post: (parent, args, context, info) => posts.find(post => post.id === parent.post),
+        creator: (parent, args, context, info) => authors.find(author => author.id === parent.creator)
     }
 }
 
