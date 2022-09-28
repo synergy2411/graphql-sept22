@@ -56,3 +56,23 @@
 
 - What I Want? -> query {author {name, email} books {title, isbn} }
 - What I Get? -> {data : { author : { name, email }, books : {title, isbn } }}
+
+# to generate package.json
+
+> npm init -y
+
+# to install graphql dependencies
+
+> npm install @graphql-yoga/node graphql
+
+# babel dependencies
+
+> npm install @babel/core @babel/cli @babel/preset-env @babel/node -D
+
+# nodemon dependency
+
+> npm install nodemon -D
+
+# to start the dev server
+
+> npm run start:dev
