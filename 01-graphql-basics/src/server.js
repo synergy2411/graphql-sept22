@@ -15,6 +15,9 @@ let posts = [
     { id: "p004", title: "GraphQL 101", body: "Not Bad", published: false, author: "u001" },
 ]
 
+// posts - 3 elements
+// comments - 1 element - "c002"
+
 let comments = [
     { id: "c001", text: "Awesome comment", post: "p001", creator: "u002" },
     { id: "c002", text: "Liked it", post: "p003", creator: "u003" },
@@ -130,6 +133,27 @@ const resolvers = {
             const deletedPosts = posts.splice(position, 1)
             comments = comments.filter(comment => comment.post !== args.postId)
             return deletedPosts[0]
+        },
+        deleteUser: (parent, args, context, info) => {
+            const position = authors.findIndex(author => author.id === args.authorId);
+            if (position === -1) {
+                throw new GraphQLYogaError("User NOT found for ID " + args.authorId)
+            }
+            const deletedUsers = authors.splice(position, 1)
+
+            // Posts created by the user
+            posts = posts.filter(post => {
+                const isMatch = post.author === args.authorId
+                if (isMatch) {
+                    // Comments created on Post created by the user
+                    comments = comments.filter(comment => comment.post !== post.id)
+                }
+                return !isMatch;
+            })
+
+            // Comments created by the user
+            comments = comments.filter(comment => comment.creator !== args.authorId)
+            return deletedUsers[0]
         }
     },
     Query: {
