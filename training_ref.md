@@ -1,0 +1,58 @@
+# Break Time
+
+- Tea Break : 12:00 (15 Minutes)
+- Lunch Break : 02:00 (50 Minutes)
+- Tea Break : 4:15 (15 Minutes)
+
+# Lab Setup
+
+- NodeJS Installer v14
+- VS Code
+- Permission to install NPM libraries
+- MongoDB / MongoDB Cloud (GMAIL Credentials)
+- Mongo Compass (GUI)
+
+# NodeJS Installer - 30Mb
+
+- Node Runtime Environment (NRE)
+- Node Native Modules
+- Node Package Manager (NPM)
+
+# Async Code
+
+- Timers
+- XMLHttpRequest (Remote Server) Calls
+- Reading / Writing of File
+- Obtaining Socket
+- Promises / Async...await
+- Callbacks
+
+# Array Methods
+
+- find
+- findIndex
+- map
+- forEach
+- includes
+- join
+- sort
+
+# REST API
+
+<!-- Over-fetching -->
+
+- /authors -> [ {id, name,img, email, books, address, contactNumber}, {}, {} ]
+  -> What I Want? -> id, name, img
+  -> What I get? -> id, name,img, email, books, address, contactNumber
+
+<!-- Under-fetching -->
+
+- /books - [{id, title, isbn, numOfPage, author}, {}, {}]
+
+-> What I Want? -> author - name, books - title, isbn
+-> What I get? -> > authors - id, name,img, email, books, address, contactNumber > books - id, title, isbn, numOfPage, author (Over-fetching again)
+
+# GraphQL - No over / under-fetching
+
+- What I Want? -> query {author {name, email} books {title, isbn} }
+- What I Get? -> {data : { author : { name, email }, books : {title, isbn } }}
