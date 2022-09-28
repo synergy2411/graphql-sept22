@@ -1,4 +1,7 @@
-import { createServer } from '@graphql-yoga/node';
+process.env.NODE_ENV = 'development';
+
+import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
+import { v4 } from 'uuid';
 
 let authors = [
     { id: "u001", username: "john", email: "john@test", age: 32 },
@@ -26,6 +29,14 @@ const typeDefs = `
         posts : [Post!]!
         comments : [Comment!]!
     }
+    type Mutation {
+        createUser(data : CreateUserInput) : User!
+    }
+    input CreateUserInput {
+        username : String!
+        email :String!
+        age: Int!
+    }
     type Post {
         id : ID!
         title: String!
@@ -50,6 +61,23 @@ const typeDefs = `
     }
 `
 const resolvers = {
+    Mutation: {
+        createUser: (parent, args, context, info) => {
+            const { username, email, age } = args.data;
+            if (!username) {
+                throw new GraphQLYogaError("Username is mandatory field")
+            }
+            if (!email) {
+                throw new GraphQLYogaError("Email is mandatory field")
+            }
+            if (!age) {
+                throw new GraphQLYogaError("Age is mandatory field")
+            }
+            const newUser = { ...args.data, id: v4() }
+            authors.push(newUser);
+            return newUser;
+        }
+    },
     Query: {
         users: (parent, args, context, info) => {
             if (args.age) {
