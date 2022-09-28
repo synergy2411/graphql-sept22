@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'development';
-
 import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
 import { v4 } from 'uuid';
 
@@ -31,6 +29,12 @@ const typeDefs = `
     }
     type Mutation {
         createUser(data : CreateUserInput) : User!
+        createPost(authorId : ID!, data: CreatePostInput) : Post!
+        createCommentn(postId: ID!, data : CreateCommentInput) : Comment!
+    }
+    input CreatePostInput {
+        title : String!
+        body: String!
     }
     input CreateUserInput {
         username : String!
@@ -64,18 +68,28 @@ const resolvers = {
     Mutation: {
         createUser: (parent, args, context, info) => {
             const { username, email, age } = args.data;
-            if (!username) {
+            if (username === '') {
                 throw new GraphQLYogaError("Username is mandatory field")
             }
-            if (!email) {
+            if (email === '') {
                 throw new GraphQLYogaError("Email is mandatory field")
             }
-            if (!age) {
+            if (age === '') {
                 throw new GraphQLYogaError("Age is mandatory field")
             }
             const newUser = { ...args.data, id: v4() }
             authors.push(newUser);
             return newUser;
+        },
+        createPost: (parent, args, context, info) => {
+            const { data, authorId } = args
+            const position = authors.findIndex(author => author.id === authorId)
+            if (position === -1) {
+                throw new GraphQLYogaError("Author NOT found for ID " + authorId)
+            }
+            const newPost = { ...data, published: false, author: authorId, id: v4() }
+            posts.push(newPost);
+            return newPost
         }
     },
     Query: {
@@ -108,7 +122,7 @@ const server = createServer({
     schema: {
         typeDefs,           // contains Schema / Structure
         resolvers           // contains Behaviour
-    }
+    },
 })
 
 server.start()
