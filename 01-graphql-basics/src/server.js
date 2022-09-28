@@ -13,10 +13,18 @@ let posts = [
     { id: "p004", title: "GraphQL 101", body: "Not Bad", published: false, author: "u001" },
 ]
 
+let comments = [
+    { id: "c001", text: "Awesome comment", post: "p001" },
+    { id: "c002", text: "Liked it", post: "p003" },
+    { id: "c003", text: "Nice Post", post: "p003" },
+    { id: "c004", text: "Not Bad Post", post: "p001" },
+]
+
 const typeDefs = `
     type Query {
         users (age : Int) : [User!]!
         posts : [Post!]!
+        comments : [Comment!]!
     }
     type Post {
         id : ID!
@@ -24,6 +32,7 @@ const typeDefs = `
         body: String!
         published: Boolean!
         author: User!
+        comments : [Comment!]!
     }
     type User {
         id : ID!
@@ -31,6 +40,11 @@ const typeDefs = `
         email: String!
         age: Int!
         posts : [Post!]!
+    }
+    type Comment {
+        id : ID!
+        text : String!
+        post : Post
     }
 `
 const resolvers = {
@@ -41,19 +55,18 @@ const resolvers = {
             }
             return authors;
         },
-        posts: () => {
-            return posts;
-        }
+        posts: () => posts,
+        comments: () => comments
     },
     Post: {
-        author: (parent, args, context, info) => {
-            return authors.find(author => author.id === parent.author)
-        }
+        author: (parent, args, context, info) => authors.find(author => author.id === parent.author),
+        comments: (parent, args, context, info) => comments.filter(comment => comment.post === parent.id)
     },
     User: {
-        posts: (parent, args, context, info) => {
-            return posts.filter(post => post.author === parent.id)
-        }
+        posts: (parent, args, context, info) => posts.filter(post => post.author === parent.id)
+    },
+    Comment: {
+        post: (parent, args, context, info) => posts.find(post => post.id === parent.post)
     }
 }
 
