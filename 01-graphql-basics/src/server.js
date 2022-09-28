@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "development";
 import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
 import { v4 } from 'uuid';
 
@@ -30,7 +31,14 @@ const typeDefs = `
     type Mutation {
         createUser(data : CreateUserInput) : User!
         createPost(authorId : ID!, data: CreatePostInput) : Post!
-        createCommentn(postId: ID!, data : CreateCommentInput) : Comment!
+        createComment(postId: ID!, data : CreateCommentInput) : Comment!
+        deleteComment(commentId : ID!) : Comment!
+        deletePost(postId : ID!) : Post!
+        deleteUser(authorId: ID!) : User!
+    }
+    input CreateCommentInput {
+        text: String!
+        creator: String!
     }
     input CreatePostInput {
         title : String!
@@ -90,6 +98,38 @@ const resolvers = {
             const newPost = { ...data, published: false, author: authorId, id: v4() }
             posts.push(newPost);
             return newPost
+        },
+        createComment: (parent, args, context, info) => {
+            const { postId, data } = args;
+            const position = posts.findIndex(post => post.id === postId)
+            if (position === -1) {
+                throw new GraphQLYogaError("Post NOT found for ID " + postId)
+            }
+            const authorPosition = authors.findIndex(author => author.id === data.creator)
+            if (authorPosition === -1) {
+                throw new GraphQLYogaError("Author NOT found for ID " + data.creator)
+            }
+            const newComment = { ...data, id: v4(), post: postId }
+            comments.push(newComment)
+            return newComment;
+        },
+        deleteComment: (parent, args, context, info) => {
+            // comments = comments.filter(comment => comment.id !== args.commentId)
+            const position = comments.findIndex(comment => comment.id === args.commentId)
+            if (position === -1) {
+                throw new GraphQLYogaError("Comment Not deleted for ID " + args.commentId)
+            }
+            const deletedComments = comments.splice(position, 1)
+            return deletedComments[0]
+        },
+        deletePost: (parent, args, context, info) => {
+            const position = posts.findIndex(post => post.id === args.postId)
+            if (position === -1) {
+                throw new GraphQLYogaError("Post NOT found for ID " + args.postId)
+            }
+            const deletedPosts = posts.splice(position, 1)
+            comments = comments.filter(comment => comment.post !== args.postId)
+            return deletedPosts[0]
         }
     },
     Query: {
@@ -123,6 +163,7 @@ const server = createServer({
         typeDefs,           // contains Schema / Structure
         resolvers           // contains Behaviour
     },
+    maskedErrors: false
 })
 
 server.start()
