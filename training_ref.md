@@ -84,3 +84,11 @@
 > @graphql-tools/load
 
 > npm i @graphql-tools/graphql-file-loader @graphql-tools/schema @graphql-tools/load
+
+- Data - authors, posts, comments
+- typeDefs - string format
+- resolvers -
+
+/grapqhl
+/resolvers : Keeps all the resolver functions
+/schema : contains the structure for GraphQL Schema

@@ -1,8 +1,13 @@
+"""
+Root Schema
+# import Query from 'query.graphql'
+"""
 type Query {
   users(age: Int): [User!]!
   posts: [Post!]!
   comments: [Comment!]!
 }
+
 type Mutation {
   createUser(data: CreateUserInput): User!
   createPost(authorId: ID!, data: CreatePostInput): Post!
@@ -12,6 +17,16 @@ type Mutation {
   deleteUser(authorId: ID!): User!
   updateUser(authorId: ID!, data: UpdateUserInput): User!
 }
+
+type Subscription {
+  post(authorId: ID!): PostSubscriptionPayload!
+}
+
+type PostSubscriptionPayload {
+  mutationType: String!
+  data: Post!
+}
+
 input UpdateUserInput {
   age: Int
 }
@@ -28,6 +43,9 @@ input CreateUserInput {
   email: String!
   age: Int!
 }
+"""
+Complex type - POST
+"""
 type Post {
   id: ID!
   title: String!

@@ -1,5 +1,5 @@
 process.env.NODE_ENV = "development";
-import { createServer } from '@graphql-yoga/node';
+import { createServer, createPubSub } from '@graphql-yoga/node';
 import { authors, posts, comments } from './db/data';
 import { resolvers } from './graphql/resolvers';
 // import { typeDefs } from './graphql/schema';
@@ -18,18 +18,19 @@ const main = async () => {
 
     const db = { authors, posts, comments };
 
+    const pubsub = createPubSub();
+
     const server = createServer({
         endpoint: "/api",
         port: 9090,
         schema: schemaWithResolvers,
         maskedErrors: false,
         context: {
-            db
+            db,
+            pubsub
         }
     })
-
     server.start()
-
 }
 
 main().catch(console.log)

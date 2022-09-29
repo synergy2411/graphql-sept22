@@ -25,7 +25,7 @@ const Mutation = {
         db.authors.push(newUser);
         return newUser;
     },
-    createPost: (parent, args, { db }, info) => {
+    createPost: (parent, args, { db, pubsub }, info) => {
         const { data, authorId } = args
         const position = db.authors.findIndex(author => author.id === authorId)
         if (position === -1) {
@@ -33,6 +33,7 @@ const Mutation = {
         }
         const newPost = { ...data, published: false, author: authorId, id: v4() }
         db.posts.push(newPost);
+        pubsub.publish("POST_CHANNEL", authorId, { mutationType: "CREATED", data: newPost })
         return newPost
     },
     createComment: (parent, args, { db }, info) => {
@@ -58,13 +59,14 @@ const Mutation = {
         const deletedComments = db.comments.splice(position, 1)
         return deletedComments[0]
     },
-    deletePost: (parent, args, { db }, info) => {
+    deletePost: (parent, args, { db, pubsub }, info) => {
         const position = db.posts.findIndex(post => post.id === args.postId)
         if (position === -1) {
             throw new GraphQLYogaError("Post NOT found for ID " + args.postId)
         }
         const deletedPosts = db.posts.splice(position, 1)
         db.comments = db.comments.filter(comment => comment.post !== args.postId)
+        pubsub.publish("POST_CHANNEL", deletedPosts[0].author, { mutationType: "DELETED", data: deletedPosts[0] })
         return deletedPosts[0]
     },
     deleteUser: (parent, args, { db }, info) => {
