@@ -127,3 +127,11 @@
   - Collection
   - Collection
   - Collection
+
+# React Project - Create React App
+
+> npx create-react-app frontend
+> cd frontend
+> npm run start
+
+> npm install @apollo/client graphql bootstrap
