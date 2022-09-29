@@ -1,5 +1,11 @@
 type Query {
   hello: String!
+  users: [User!]!
+}
+type User {
+  id: ID!
+  username: String!
+  age: Int!
 }
 type Mutation {
   createUser(data: CreateUserInput!): CreateUserPayload!
