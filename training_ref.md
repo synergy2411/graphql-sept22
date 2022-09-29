@@ -92,3 +92,13 @@
 /grapqhl
 /resolvers : Keeps all the resolver functions
 /schema : contains the structure for GraphQL Schema
+
+# MongoDB Integration
+
+- Mongo Atlas Cloud - GMAIL Credentials
+
+  > username : user123
+  > password : vevVonnvHRiWkS87
+  > mongodb+srv://user123:vevVonnvHRiWkS87@cluster0.e9xsq.mongodb.net/optum-db?retryWrites=true&w=majority
+
+- Local installation

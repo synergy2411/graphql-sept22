@@ -1,0 +1,4 @@
+const Subscription = {
+}
+
+export { Subscription }
