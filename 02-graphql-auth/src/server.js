@@ -7,6 +7,7 @@ import { join } from 'path';
 
 import "./db";
 import { UserModel } from './model/user.model';
+import { BookModel } from './model/book.model';
 
 const main = async () => {
     const schema = await loadSchema(join(__dirname, "/graphql/schema/schema.graphql"), {
@@ -24,7 +25,8 @@ const main = async () => {
         maskedErrors: false,
         context: {
             pubsub,
-            UserModel
+            UserModel,
+            BookModel
         }
     })
     server.start()

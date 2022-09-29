@@ -1,7 +1,32 @@
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import * as dotenv from 'dotenv';
 import { hash, compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import mongoose from 'mongoose';
+
+dotenv.config();
+const { SECRET_KEY } = process.env;
 
 const Mutation = {
+    createBook: async (_, args, { BookModel, UserModel }) => {
+        try {
+            const { authorId, data } = args;
+            const { title, numOfPages } = data;
+            const foundUser = await UserModel.findById(authorId)
+            if (!foundUser) {
+                throw new GraphQLYogaError("User not found")
+            }
+            const newBook = new BookModel({ title, numOfPages, author: mongoose.Types.ObjectId(authorId) })
+            const createdBook = await newBook.save()
+            return {
+                id: createdBook._doc._id,
+                title: createdBook._doc.title,
+                numOfPages: createdBook._doc.numOfPages
+            }
+        } catch (err) {
+            throw new GraphQLYogaError(err)
+        }
+    },
     createUser: async (_, args, { UserModel }) => {
         try {
             const { username, email, password, age } = args.data;
@@ -30,8 +55,9 @@ const Mutation = {
             if (!isMatch) {
                 throw new GraphQLYogaError("Bad Credentials")
             }
+            const token = sign({ id: foundUser._doc._id, email: foundUser._doc.email }, SECRET_KEY)
             return {
-                token: "SUCCESS",
+                token: token,
                 username: foundUser._doc.username,
                 age: foundUser._doc.age
             }

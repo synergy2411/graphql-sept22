@@ -15,6 +15,20 @@ const Query = {
         } catch (err) {
             throw new GraphQLYogaError(err)
         }
+    },
+    books: async (_, args, { UserModel, BookModel }) => {
+        try {
+            const allBooks = await BookModel.find();
+            return allBooks.map(book => {
+                return {
+                    id: book._id,
+                    title: book.title,
+                    numOfPages: book.numOfPages
+                }
+            });
+        } catch (err) {
+            throw new GraphQLYogaError(err)
+        }
     }
 }
 

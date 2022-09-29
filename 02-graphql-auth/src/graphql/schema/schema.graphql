@@ -1,6 +1,13 @@
 type Query {
   hello: String!
   users: [User!]!
+  books: [Book!]!
+}
+
+type Book {
+  id: ID!
+  title: String!
+  numOfPages: Int!
 }
 type User {
   id: ID!
@@ -10,6 +17,12 @@ type User {
 type Mutation {
   createUser(data: CreateUserInput!): CreateUserPayload!
   userLogin(data: userLoginInput!): userLoginPayload!
+  createBook(authorId: ID!, data: CreateBookInput!): Book!
+}
+
+input CreateBookInput {
+  title: String!
+  numOfPages: Int!
 }
 
 input userLoginInput {
