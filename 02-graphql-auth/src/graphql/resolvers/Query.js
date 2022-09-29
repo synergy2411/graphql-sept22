@@ -1,4 +1,8 @@
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import { verify } from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+dotenv.config()
+const { SECRET_KEY } = process.env;
 
 const Query = {
     hello: () => "World",
@@ -16,9 +20,14 @@ const Query = {
             throw new GraphQLYogaError(err)
         }
     },
-    books: async (_, args, { UserModel, BookModel }) => {
+    books: async (_, args, { UserModel, BookModel, token }) => {
+        if (!token) {
+            throw new GraphQLYogaError("Login Required")
+        }
         try {
-            const allBooks = await BookModel.find();
+            const decode = await verify(token, SECRET_KEY)
+            console.log("DECODE :", decode);                // {iat, id, email}
+            const allBooks = await BookModel.find({ author: decode.id });
             return allBooks.map(book => {
                 return {
                     id: book._id,

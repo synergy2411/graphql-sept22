@@ -23,10 +23,20 @@ const main = async () => {
         port: 9090,
         schema: schemaWithResolvers,
         maskedErrors: false,
-        context: {
-            pubsub,
-            UserModel,
-            BookModel
+        context: ({ request }) => {
+            const authHeader = request.headers.get("authorization")
+
+            let token = null;
+            if (authHeader) {
+                token = authHeader.split(" ")[1]          // "Bearer TOKEN_VALUE"
+            }
+
+            return {
+                pubsub,
+                UserModel,
+                BookModel,
+                token
+            }
         }
     })
     server.start()
