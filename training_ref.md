@@ -104,3 +104,26 @@
 - Local installation
 
 > npm install mongoose
+
+# MongoDB Deployment (NoSQL)
+
+- DB (optum-db)
+  - Collection (users) - TABLE in RDBMS
+    - Document - JSON Format document - Tuple in Table
+    - Document
+  - Collection
+    - Document
+    - Document
+    - Document
+  - Collection
+    - Document
+    - Document
+    - Document
+- DB
+  - Collection
+  - Collection
+  - Collection
+- DB
+  - Collection
+  - Collection
+  - Collection

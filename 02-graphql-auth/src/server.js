@@ -6,6 +6,7 @@ import { addResolversToSchema } from '@graphql-tools/schema';
 import { join } from 'path';
 
 import "./db";
+import { UserModel } from './model/user.model';
 
 const main = async () => {
     const schema = await loadSchema(join(__dirname, "/graphql/schema/schema.graphql"), {
@@ -22,7 +23,8 @@ const main = async () => {
         schema: schemaWithResolvers,
         maskedErrors: false,
         context: {
-            pubsub
+            pubsub,
+            UserModel
         }
     })
     server.start()
