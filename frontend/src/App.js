@@ -26,8 +26,8 @@ function App() {
       <div className='container'>
         <h1 className='text-center'>Book Store</h1>
         <div className='row'>
-          {data.users.map(user => {
-            return <User user={user} key={user.id} />
+          {data.users.map(usr => {
+            return <User user={usr} key={usr.id} />
           })}
         </div>
       </div>

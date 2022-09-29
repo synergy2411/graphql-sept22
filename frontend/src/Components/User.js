@@ -1,4 +1,4 @@
-const User = (props) => {
+const User = (props) => {           // usr
     return (<div className='col-4'>
         <div className='card'>
             <div className='card-body'>
