@@ -102,3 +102,5 @@
   > mongodb+srv://user123:vevVonnvHRiWkS87@cluster0.e9xsq.mongodb.net/optum-db?retryWrites=true&w=majority
 
 - Local installation
+
+> npm install mongoose
