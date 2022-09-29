@@ -1,0 +1,6 @@
+
+const Mutation = {
+
+}
+
+export { Mutation };
