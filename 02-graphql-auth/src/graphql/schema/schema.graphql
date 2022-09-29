@@ -17,7 +17,7 @@ type User {
 type Mutation {
   createUser(data: CreateUserInput!): CreateUserPayload!
   userLogin(data: userLoginInput!): userLoginPayload!
-  createBook(authorId: ID!, data: CreateBookInput!): Book!
+  createBook(data: CreateBookInput!): Book!
 }
 
 input CreateBookInput {

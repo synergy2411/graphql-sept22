@@ -1,22 +1,21 @@
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import { compare, hash } from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
 dotenv.config();
 const { SECRET_KEY } = process.env;
 
 const Mutation = {
-    createBook: async (_, args, { BookModel, UserModel }) => {
+    createBook: async (_, args, { BookModel, UserModel, token }) => {
+        if (!token) {
+            throw new GraphQLYogaError("Login required")
+        }
         try {
-            const { authorId, data } = args;
-            const { title, numOfPages } = data;
-            const foundUser = await UserModel.findById(authorId)
-            if (!foundUser) {
-                throw new GraphQLYogaError("User not found")
-            }
-            const newBook = new BookModel({ title, numOfPages, author: mongoose.Types.ObjectId(authorId) })
+            const { id } = await verify(token, SECRET_KEY);
+            const { title, numOfPages } = args.data;
+            const newBook = new BookModel({ title, numOfPages, author: mongoose.Types.ObjectId(id) })
             const createdBook = await newBook.save()
             return {
                 id: createdBook._doc._id,
@@ -68,3 +67,4 @@ const Mutation = {
 }
 
 export { Mutation };
+

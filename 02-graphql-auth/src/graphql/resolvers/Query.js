@@ -26,7 +26,6 @@ const Query = {
         }
         try {
             const decode = await verify(token, SECRET_KEY)
-            console.log("DECODE :", decode);                // {iat, id, email}
             const allBooks = await BookModel.find({ author: decode.id });
             return allBooks.map(book => {
                 return {
