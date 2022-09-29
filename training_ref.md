@@ -76,3 +76,11 @@
 # to start the dev server
 
 > npm run start:dev
+
+# to load schema.graphql file in GraphQL Server
+
+> @graphql-tools/graphql-file-loader
+> @graphql-tools/schema
+> @graphql-tools/load
+
+> npm i @graphql-tools/graphql-file-loader @graphql-tools/schema @graphql-tools/load
