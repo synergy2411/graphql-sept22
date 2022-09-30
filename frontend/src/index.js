@@ -16,7 +16,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:9090/api"
+  uri: "https://sk-graphql-optum-sept-22.herokuapp.com/graphql"
 })
 
 const client = new ApolloClient({

@@ -148,3 +148,24 @@
 # babel-jest
 
 > npm install jest babel-jest axios -D
+
+# Steps for Heroku Postgres Connection
+
+- Add add-ons (Heroku Postgres) on Heroku Cloud
+- Access DB credentails (host, usernmae, password, port, database)
+- npm install prisma
+- npx prisma init
+- npx prisma db push / pull
+- npx prisma generate (@prisma/client)
+
+# Steps for deploying App on Heroku Cloud
+
+- Download the heroku CLI
+- Project upload to Git
+- heroku Commands
+  - heroku login
+  - heroku keys:add : will add .ssh file to heroku
+    > optional Step: open Powershell > ssh-keygen
+  - heroku create <application-name>
+  - git remote
+  - git push heroku main
