@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "SET NODE_ENV=development&& nodemon --exec babel-node src/server.js",
-    "start": "node src/server.js"
+    "clean": "del -f build && mkdir build",
+    "build": "npm run clean && npm run build-server",
+    "build-server": "babel -d ./build ./src -s",
+    "start": "node ./build/server.js"
   },
   "keywords": [],
   "author": "SumitK",

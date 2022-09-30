@@ -21,6 +21,7 @@ const Query = {
         }
     },
     books: async (_, args, { UserModel, BookModel, token }) => {
+        console.log("Token : ", token);
         if (!token) {
             throw new GraphQLYogaError("Login Required")
         }
