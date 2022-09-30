@@ -135,3 +135,16 @@
 > npm run start
 
 > npm install @apollo/client graphql bootstrap
+
+# Jest : JavaScript Testing Framework
+
+- test suites
+- tests
+- tear-down approach
+- matchers
+
+# axios : to make remote server calls; Promise based API
+
+# babel-jest
+
+> npm install jest babel-jest axios -D

@@ -30,7 +30,7 @@ const Login = () => {
         event.preventDefault();
         try {
             const { data } = await userLogin()
-            localStorage.clear()
+            localStorage.removeItem("token")
             localStorage.setItem("token", data.userLogin.token)
             setShowPost(true)
         } catch (err) {
