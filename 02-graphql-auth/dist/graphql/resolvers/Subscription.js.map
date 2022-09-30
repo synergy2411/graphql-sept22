@@ -1,0 +1,1 @@
+{"version":3,"file":"Subscription.js","names":["Subscription"],"sources":["../../../src/graphql/resolvers/Subscription.js"],"sourcesContent":["const Subscription = {\r\n}\r\n\r\nexport { Subscription }"],"mappings":";;;;;;AAAA,IAAMA,YAAY,GAAG,EAArB"}

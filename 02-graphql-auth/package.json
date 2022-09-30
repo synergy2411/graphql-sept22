@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "SET NODE_ENV=development&& nodemon --exec babel-node src/server.js",
-    "start": "node src/server.js",
-    "test": "jest --watchAll --timeout=10000"
+    "test": "jest --watchAll --timeout=10000",
+    "clean": "rimraf dist && mkdir dist",
+    "build:babel": "babel -d ./dist ./src -s",
+    "build": "npm run clean && npm run build:babel",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "SumitK",
@@ -18,6 +21,7 @@
     "@graphql-yoga/node": "^2.13.13",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.2",
+    "express": "^4.18.1",
     "graphql": "^16.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.2",

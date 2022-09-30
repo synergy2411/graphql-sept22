@@ -1,0 +1,51 @@
+type Query {
+  hello: String!
+  users: [User!]!
+  books: [Book!]!
+}
+
+type Book {
+  id: ID!
+  title: String!
+  numOfPages: Int!
+}
+type User {
+  id: ID!
+  username: String!
+  age: Int!
+}
+type Mutation {
+  createUser(data: CreateUserInput!): CreateUserPayload!
+  userLogin(data: userLoginInput!): userLoginPayload!
+  createBook(data: CreateBookInput!): Book!
+}
+
+input CreateBookInput {
+  title: String!
+  numOfPages: Int!
+}
+
+input userLoginInput {
+  email: String!
+  password: String!
+}
+
+type userLoginPayload {
+  token: String!
+  username: String!
+  age: Int
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+  age: Int!
+}
+
+type CreateUserPayload {
+  id: ID!
+  username: String!
+  email: String!
+  age: Int!
+}
