@@ -1,0 +1,18 @@
+{
+  "name": "03-graphql-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "SumitK",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-yoga/node": "^2.13.13",
+    "@prisma/client": "^4.4.0",
+    "graphql": "^16.6.0",
+    "prisma": "^4.4.0"
+  }
+}
